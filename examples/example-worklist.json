@@ -1,0 +1,163 @@
+{
+  "tool": "triage-doctor",
+  "version": "1.0.0",
+  "target": "models/",
+  "counts": {
+    "models": 3,
+    "clean": 1,
+    "cleanup": 1,
+    "hopeless": 1
+  },
+  "items": [
+    {
+      "target": "hero.fbx",
+      "kind": "fbx",
+      "bucket": "clean",
+      "reasons": [
+        "ripdoctor PASS -- healthy rip; voxel cleanup would only destroy its UVs/skinning"
+      ],
+      "notes": [],
+      "metrics": {
+        "meshes": 1,
+        "verts": 15197,
+        "polys": 24000,
+        "bones": 145,
+        "height_m": 1.6396,
+        "max_dim_m": 1.6396,
+        "geometry_status": "PASS",
+        "geometry_summary": "s",
+        "geometry_flags": [
+          "scale and geometry within plausible bounds"
+        ],
+        "probe_error": null,
+        "skinning_status": "PASS",
+        "skinning_summary": "1 armature(s), 145 bone(s)",
+        "mesh_details": [
+          {
+            "name": "body",
+            "verts": 15197,
+            "polys": 24000,
+            "dims_m": [
+              1.1547,
+              0.5302,
+              1.6396
+            ],
+            "armature_modifier": true,
+            "vertex_groups": 60,
+            "materials": 3
+          }
+        ]
+      },
+      "cleanup": null,
+      "checks": [
+        {
+          "id": "triage",
+          "title": "Triage classification",
+          "status": "PASS",
+          "summary": "ripdoctor PASS -- healthy rip; voxel cleanup would only destroy its UVs/skinning",
+          "details": {
+            "bucket": "clean"
+          }
+        }
+      ]
+    },
+    {
+      "target": "generated_fullbody_raw.glb",
+      "kind": "glb",
+      "bucket": "cleanup",
+      "reasons": [
+        "not watertight (8,053 shells, 218,610 boundary edges); 1,499,788 tris over the 25,000 budget; voxel 0.004 (= 0.35% of measured height 1.143 m), target 25,000 tris"
+      ],
+      "notes": [],
+      "metrics": {
+        "meshes": 1,
+        "verts": 891360,
+        "tris": 1499788,
+        "shells": 8053,
+        "boundary_edges": 218610,
+        "nonmanifold_edges": 0,
+        "zero_area_tris": 0,
+        "watertight": false,
+        "height_m": 1.143,
+        "max_dim_m": 1.143,
+        "scene_dims_m": [
+          0.9,
+          0.6,
+          1.143
+        ]
+      },
+      "cleanup": {
+        "voxel_size": 0.004,
+        "target_tris": 25000,
+        "input": "generated_fullbody_raw.glb",
+        "output": "generated_fullbody_raw_cleaned.glb",
+        "commands": [
+          "blender --background --python clean_ai_mesh.py -- --input generated_fullbody_raw.glb --output generated_fullbody_raw_cleaned.glb --target-tris 25000 --voxel-size 0.004 --report generated_fullbody_raw_cleaned.glb.report.json"
+        ]
+      },
+      "checks": [
+        {
+          "id": "triage",
+          "title": "Triage classification",
+          "status": "WARN",
+          "summary": "not watertight (8,053 shells, 218,610 boundary edges); 1,499,788 tris over the 25,000 budget; voxel 0.004 (= 0.35% of measured height 1.143 m), target 25,000 tris",
+          "details": {
+            "bucket": "cleanup"
+          }
+        }
+      ]
+    },
+    {
+      "target": "rip_at_wrong_scale.fbx",
+      "kind": "fbx",
+      "bucket": "hopeless",
+      "reasons": [
+        "ripdoctor FAIL -- scene max dimension is 0.0164 m -- the 0.01-scale class: geometry is ~100x too small (unit mismatch at export/import)"
+      ],
+      "notes": [],
+      "metrics": {
+        "meshes": 1,
+        "verts": 15197,
+        "polys": 24000,
+        "bones": 145,
+        "height_m": 1.6396,
+        "max_dim_m": 1.6396,
+        "geometry_status": "FAIL",
+        "geometry_summary": "s",
+        "geometry_flags": [
+          "scene max dimension is 0.0164 m -- the 0.01-scale class: geometry is ~100x too small (unit mismatch at export/import)"
+        ],
+        "probe_error": null,
+        "skinning_status": "PASS",
+        "skinning_summary": "1 armature(s), 145 bone(s)",
+        "mesh_details": [
+          {
+            "name": "body",
+            "verts": 15197,
+            "polys": 24000,
+            "dims_m": [
+              1.1547,
+              0.5302,
+              1.6396
+            ],
+            "armature_modifier": true,
+            "vertex_groups": 60,
+            "materials": 3
+          }
+        ]
+      },
+      "cleanup": null,
+      "checks": [
+        {
+          "id": "triage",
+          "title": "Triage classification",
+          "status": "FAIL",
+          "summary": "ripdoctor FAIL -- scene max dimension is 0.0164 m -- the 0.01-scale class: geometry is ~100x too small (unit mismatch at export/import)",
+          "details": {
+            "bucket": "hopeless"
+          }
+        }
+      ]
+    }
+  ]
+}

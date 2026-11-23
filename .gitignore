@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Generated worklists / reports (the samples under examples/ are
+# committed on purpose)
+worklist.json
+worklist.md
+cleanup.sh
+*.report.json
+
+# Cleaned output produced by --run during testing
+*_cleaned.glb
+*.triage.glb
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
